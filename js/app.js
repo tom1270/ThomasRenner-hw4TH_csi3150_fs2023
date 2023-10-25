@@ -321,6 +321,15 @@ function displayCars(cars) {
   const carListings = document.getElementById("carListings");
   carListings.innerHTML = "";
 
+  if (cars.length === 0) {
+    const noCarsMessage = document.createElement("p");
+    noCarsMessage.className = "noCarsMessage";
+    noCarsMessage.textContent =
+      "No cars match your criteria. Please try again.";
+    carListings.appendChild(noCarsMessage);
+    return;
+  }
+
   cars.forEach((car, index) => {
     const carCard = document.createElement("div");
     carCard.className = "carCard";
@@ -331,7 +340,7 @@ function displayCars(cars) {
         <p class="carDetails">Color: ${car.color}</p>
         <p class="carDetails">Gas Mileage: ${car.gasMileage}</p>
         <button class="carButton" onclick="openModal(${index})">View Details</button>
-      `;
+    `;
     carListings.appendChild(carCard);
   });
 }
