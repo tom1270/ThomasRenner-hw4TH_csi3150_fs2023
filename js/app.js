@@ -152,7 +152,146 @@ const usedCars = [
     color: "Black",
     gasMileage: "23 mpg city, 34 mpg highway",
   },
+  {
+    year: 2021,
+    make: "Audi",
+    model: "A4",
+    mileage: 15000,
+    price: 32000,
+    color: "Gray",
+    gasMileage: "27 mpg city, 36 mpg highway",
+  },
+  {
+    year: 2020,
+    make: "Mercedes-Benz",
+    model: "C-Class",
+    mileage: 18000,
+    price: 38000,
+    color: "Silver",
+    gasMileage: "25 mpg city, 35 mpg highway",
+  },
+  {
+    year: 2022,
+    make: "Volvo",
+    model: "XC60",
+    mileage: 12000,
+    price: 42000,
+    color: "Blue",
+    gasMileage: "22 mpg city, 30 mpg highway",
+  },
+  {
+    year: 2021,
+    make: "Land Rover",
+    model: "Range Rover Sport",
+    mileage: 22000,
+    price: 65000,
+    color: "Black",
+    gasMileage: "18 mpg city, 24 mpg highway",
+  },
+  {
+    year: 2019,
+    make: "Acura",
+    model: "MDX",
+    mileage: 28000,
+    price: 29000,
+    color: "Silver",
+    gasMileage: "20 mpg city, 27 mpg highway",
+  },
+  {
+    year: 2020,
+    make: "Infiniti",
+    model: "Q50",
+    mileage: 22000,
+    price: 33000,
+    color: "Black",
+    gasMileage: "23 mpg city, 30 mpg highway",
+  },
+  {
+    year: 2018,
+    make: "GMC",
+    model: "Terrain",
+    mileage: 32000,
+    price: 23000,
+    color: "Red",
+    gasMileage: "21 mpg city, 28 mpg highway",
+  },
+  {
+    year: 2022,
+    make: "Jeep",
+    model: "Wrangler",
+    mileage: 15000,
+    price: 35000,
+    color: "Green",
+    gasMileage: "17 mpg city, 25 mpg highway",
+  },
+  {
+    year: 2021,
+    make: "Mitsubishi",
+    model: "Outlander",
+    mileage: 18000,
+    price: 26000,
+    color: "Blue",
+    gasMileage: "24 mpg city, 30 mpg highway",
+  },
+  {
+    year: 2019,
+    make: "RAM",
+    model: "1500",
+    mileage: 24000,
+    price: 28000,
+    color: "White",
+    gasMileage: "20 mpg city, 25 mpg highway",
+  },
+  {
+    year: 2020,
+    make: "Chrysler",
+    model: "300",
+    mileage: 19000,
+    price: 24000,
+    color: "Black",
+    gasMileage: "19 mpg city, 30 mpg highway",
+  },
+  {
+    year: 2022,
+    make: "Kia",
+    model: "Telluride",
+    mileage: 12000,
+    price: 39000,
+    color: "Gray",
+    gasMileage: "20 mpg city, 26 mpg highway",
+  },
+  {
+    year: 2018,
+    make: "Jaguar",
+    model: "XE",
+    mileage: 22000,
+    price: 35000,
+    color: "Silver",
+    gasMileage: "23 mpg city, 32 mpg highway",
+  },
+  {
+    year: 2021,
+    make: "Porsche",
+    model: "911",
+    mileage: 8000,
+    price: 120000,
+    color: "Red",
+    gasMileage: "18 mpg city, 24 mpg highway",
+  },
 ];
+
+function resetFilters() {
+  document.getElementById("minYear").value = "";
+  document.getElementById("maxYear").value = "";
+  document.getElementById("make").value = "all";
+  document.getElementById("maxMileage").value = "";
+  document.getElementById("minPrice").value = "";
+  document.getElementById("maxPrice").value = "";
+  document.getElementById("color").value = "all";
+
+  filteredCars = [...usedCars];
+  displayCars(filteredCars);
+}
 
 function applyFilters() {
   const minYear = document.getElementById("minYear").value;
@@ -182,7 +321,7 @@ function displayCars(cars) {
   const carListings = document.getElementById("carListings");
   carListings.innerHTML = "";
 
-  cars.forEach((car) => {
+  cars.forEach((car, index) => {
     const carCard = document.createElement("div");
     carCard.className = "carCard";
     carCard.innerHTML = `
@@ -191,10 +330,39 @@ function displayCars(cars) {
         <p class="carDetails">Price: $${car.price}</p>
         <p class="carDetails">Color: ${car.color}</p>
         <p class="carDetails">Gas Mileage: ${car.gasMileage}</p>
-        <button class="carButton">View Details</button>
+        <button class="carButton" onclick="openModal(${index})">View Details</button>
       `;
     carListings.appendChild(carCard);
   });
+}
+
+function openModal(index) {
+  const car = usedCars[index];
+  const modal = document.createElement("div");
+  modal.className = "modal";
+  modal.innerHTML = `
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3 class="carTitle">${car.year} ${car.make} ${car.model}</h3>
+      <p class="carDetails">Mileage: ${car.mileage}</p>
+      <p class="carDetails">Price: $${car.price}</p>
+      <p class="carDetails">Color: ${car.color}</p>
+      <p class="carDetails">Gas Mileage: ${car.gasMileage}</p>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  window.onclick = function (event) {
+    if (event.target === modal) {
+      closeModal();
+    }
+  };
+}
+
+function closeModal() {
+  const modal = document.querySelector(".modal");
+  if (modal) {
+    modal.remove();
+  }
 }
 
 // Display all cars on initial load
